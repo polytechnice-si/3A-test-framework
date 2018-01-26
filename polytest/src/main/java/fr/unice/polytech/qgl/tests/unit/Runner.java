@@ -21,22 +21,26 @@ public class Runner {
     public void execute() { suites.forEach( this::processSuite ); }
 
     private void processSuite(Class<?> clazz) {
-        System.out.println("Executing tests in ["+clazz.getName()+"]");
-        Reflections mirror = new Reflections(clazz,new MethodAnnotationsScanner());
-        Set<Method> tests = mirror.getMethodsAnnotatedWith(Test.class);
-        Set<Method> setup = mirror.getMethodsAnnotatedWith(Before.class);
+
+        Reflections mirror  = new Reflections(clazz,new MethodAnnotationsScanner());
+        Set<Method> tests   = mirror.getMethodsAnnotatedWith(Test.class);
+        Set<Method> setup   = mirror.getMethodsAnnotatedWith(Before.class);
         Set<Method> cleanup = mirror.getMethodsAnnotatedWith(After.class);
+
+        System.out.println("Executing tests in ["+clazz.getName()+"]");
+        Set<TestResult> results = executeTests(clazz, tests, setup, cleanup);
+        results.forEach(System.out::println);
+    }
+
+    private Set<TestResult> executeTests(Class<?> clazz, Set<Method> tests, Set<Method> setup, Set<Method> cleanup) {
         Set<TestResult> results = null;
         try {
             Object instance = clazz.newInstance();
             results = tests.stream()
                     .map(method -> processTest(instance, method, setup, cleanup))
                     .collect(Collectors.toSet());
-        } catch (InstantiationException | IllegalAccessException e) {
-            throw new RuntimeException(e);
-        }
-        results.forEach(System.out::println);
-
+        } catch (InstantiationException | IllegalAccessException e) { throw new RuntimeException(e); }
+        return results;
     }
 
     private TestResult processTest(Object instance, Method test, Set<Method> setup, Set<Method> cleanup) {
@@ -47,14 +51,12 @@ public class Runner {
             execute(instance, setup);
             test.invoke(instance);
             execute(instance, cleanup);
-        } catch(IllegalAccessException e) {
-            throw new RuntimeException(e);
-        } catch(InvocationTargetException e) {
-            if(! shouldFail(test)) {
-                return new TestResult(test, false, e.getCause().getMessage());
-            }
         }
-        return new TestResult(test, true, "");
+        catch(IllegalAccessException e) { throw new RuntimeException(e); }
+        catch(InvocationTargetException e) {
+            if(! shouldFail(test)) { return new TestResult(test, false, e.getCause().getMessage()); }
+        }
+        return new TestResult(test, true);
     }
 
     private void execute(Object instance, Set<Method> methods)

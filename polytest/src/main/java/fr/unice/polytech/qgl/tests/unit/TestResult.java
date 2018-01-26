@@ -8,14 +8,16 @@ public class TestResult {
     private boolean success;
     private String message;
 
-    public TestResult(Method test, boolean success, String message) {
+    TestResult(Method test, boolean success, String message) {
         this.test = test;
         this.success = success;
         this.message = message;
     }
 
+    TestResult(Method test, boolean success) { this(test, success, "");  }
+
     @Override
     public String toString() {
-        return test.getName() + ": " + (success? "OK": "FAILURE") + " ["+message+"]";
+        return test.getName() + ": " + (success? "OK": "FAILURE") + (message.equals("") ? "" : " ["+message+"]");
     }
 }

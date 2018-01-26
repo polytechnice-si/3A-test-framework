@@ -46,5 +46,4 @@ public class AssertionTests {
         throw new IllegalArgumentException("bad");
     }
 
-
 }
