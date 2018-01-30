@@ -20,12 +20,9 @@ public class ShopTestWithMockAndSpy {
 
     @Before public void initialize() {
         Catalogue testCatalogue = mock(Catalogue.class);
-        calling(testCatalogue, "findByBarCode", "42")
-                .returns(Optional.of(aProduct));
-        calling(testCatalogue, "findByBarCode", "666")
-                .returns(Optional.of(anotherProduct));
-        calling(testCatalogue, "findByBarCode")
-                .defaultsTo(Optional.empty());
+        calling(testCatalogue, "findByBarCode", "42").returns(Optional.of(aProduct));
+        calling(testCatalogue, "findByBarCode", "666").returns(Optional.of(anotherProduct));
+        calling(testCatalogue, "findByBarCode").defaultsTo(Optional.empty());
 
         theBank = spy(Bank.class, MyBank.class);
         theShop = new Shop(testCatalogue, theBank);
@@ -46,8 +43,7 @@ public class ShopTestWithMockAndSpy {
         theShop.retrieveAProduct("UNKNOWN");
     }
 
-    @Test(expected = RuntimeException.class)
-    public void theBankIsOnlyCalledOnce() throws Bank.PaymentException {
+    @Test public void theBankIsOnlyCalledOnce() throws Bank.PaymentException {
         assertEquals(0, howManyTimesWasCalled(theBank, "pay"));
         theShop.register("Seb", "1234567890");
         theShop.purchase("42", "Seb", 12);

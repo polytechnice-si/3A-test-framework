@@ -46,4 +46,9 @@ public class AssertionTests {
         throw new IllegalArgumentException("bad");
     }
 
+    @Test(expected = IllegalArgumentException.class)
+    public void identifyWrongException() {
+        throw new RuntimeException("bad");
+    }
+
 }

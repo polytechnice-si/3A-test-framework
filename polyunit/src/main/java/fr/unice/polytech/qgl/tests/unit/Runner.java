@@ -35,7 +35,8 @@ public class Runner {
         System.out.println();
     }
 
-    private Set<TestResult> runTestsInsideASuite(Class<?> clazz, Set<Method> tests, Set<Method> setup, Set<Method> cleanup) {
+    private Set<TestResult> runTestsInsideASuite(Class<?> clazz, Set<Method> tests,
+                                                 Set<Method> setup, Set<Method> cleanup) {
         Set<TestResult> results = null;
         try {
             Object instance = clazz.newInstance();
@@ -55,29 +56,38 @@ public class Runner {
             test.invoke(instance);
             execute(instance, cleanup);
         }
-        catch(IllegalAccessException | RuntimeException e) {
-            return new TestResult(test, false, e.getCause().getMessage());
+        catch(Exception e) {
+            return verifyException(test, e);
         }
-        catch(InvocationTargetException e) {
-            if(! shouldFail(test)) {
-                return new TestResult(test, false, e.getCause().getMessage());
-            }
-        }
+        if(shouldFail(test))
+            return new TestResult(test, false, "No exception catched!");
+
         return new TestResult(test, true);
     }
 
-    private void execute(Object instance, Set<Method> methods)
-            throws IllegalAccessException, InvocationTargetException {
-        for(Method m: methods) {
-            m.invoke(instance);
+    private TestResult verifyException(Method test, Exception e) {
+        if(shouldFail(test)) {
+            Class<? extends Throwable> expected = test.getDeclaredAnnotation(Test.class).expected();
+            if(isAssignableFrom(e, expected)) {
+                return new TestResult(test, true);
+            } else {
+                String message = "Expected " + expected + " got " + e.getCause().getClass();
+                return new TestResult(test, false,message);
+            }
+        } else {
+            return new TestResult(test, false, e.getCause().getMessage());
         }
     }
 
+    private void execute(Object instance, Set<Method> methods) throws IllegalAccessException, InvocationTargetException {
+        for(Method m: methods) { m.invoke(instance); }
+    }
+
+    private boolean isAssignableFrom(Exception e, Class<? extends Throwable> expected) {
+        return expected.isAssignableFrom(e.getCause().getClass());
+    }
     private boolean shouldFail(Method test) {
-        boolean shouldFail = false;
-        if(test.getDeclaredAnnotation(Test.class).expected() != Test.DEFAULT_EXPECTATION.class)
-            shouldFail = true;
-        return shouldFail;
+        return test.getDeclaredAnnotation(Test.class).expected() != Test.DEFAULT_EXPECTATION.class;
     }
 
     private Set<Method> extract(Class<?> clazz, Class<? extends Annotation> annotation) {
