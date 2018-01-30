@@ -16,6 +16,8 @@ public class ShopTestWithMockAndSpy {
     private static final Product anotherProduct = new Product("anotherProduct", 1.5);
 
     private Shop theShop;
+    private Bank theBank;
+
     @Before public void initialize() {
         Catalogue testCatalogue = mock(Catalogue.class);
         calling(testCatalogue, "findByBarCode", "42")
@@ -24,20 +26,34 @@ public class ShopTestWithMockAndSpy {
                 .returns(Optional.of(anotherProduct));
         calling(testCatalogue, "findByBarCode")
                 .defaultsTo(Optional.empty());
-        Bank theBank = spy(Bank.class);
 
+        theBank = spy(Bank.class, MyBank.class);
         theShop = new Shop(testCatalogue, theBank);
     }
 
-    @After public void cleanup()     { this.theShop = null; }
+    @After public void cleanup() {
+        this.theShop = null;
+        this.theBank = null;
+    }
 
     @Test public void theMockedCatalogueDoItsJob() {
         assertEquals(aProduct, theShop.retrieveAProduct("42"));
         assertEquals(anotherProduct, theShop.retrieveAProduct("666"));
     }
 
-    @Test(expected = RuntimeException.class) public void theMockedCatalogueDoItsJobWhenDefaulting() {
+    @Test(expected = RuntimeException.class)
+    public void theMockedCatalogueDoItsJobWhenDefaulting() {
         theShop.retrieveAProduct("UNKNOWN");
+    }
+
+    @Test(expected = RuntimeException.class)
+    public void theBankIsOnlyCalledOnce() throws Bank.PaymentException {
+        assertEquals(0, howManyTimesWasCalled(theBank, "pay"));
+        theShop.register("Seb", "1234567890");
+        theShop.purchase("42", "Seb", 12);
+        theShop.purchase("666", "Seb", 7);
+        theShop.pay("Seb");
+        assertEquals(1, howManyTimesWasCalled(theBank, "pay"));
     }
 
 }

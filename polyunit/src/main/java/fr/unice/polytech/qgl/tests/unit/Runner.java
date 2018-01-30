@@ -55,17 +55,22 @@ public class Runner {
             test.invoke(instance);
             execute(instance, cleanup);
         }
-        catch(IllegalAccessException e) { throw new RuntimeException(e); }
+        catch(IllegalAccessException | RuntimeException e) {
+            return new TestResult(test, false, e.getCause().getMessage());
+        }
         catch(InvocationTargetException e) {
-            if(! shouldFail(test)) { return new TestResult(test, false, e.getCause().getMessage()); }
+            if(! shouldFail(test)) {
+                return new TestResult(test, false, e.getCause().getMessage());
+            }
         }
         return new TestResult(test, true);
     }
 
     private void execute(Object instance, Set<Method> methods)
-            throws IllegalAccessException,InvocationTargetException {
-        for(Method m: methods)
+            throws IllegalAccessException, InvocationTargetException {
+        for(Method m: methods) {
             m.invoke(instance);
+        }
     }
 
     private boolean shouldFail(Method test) {

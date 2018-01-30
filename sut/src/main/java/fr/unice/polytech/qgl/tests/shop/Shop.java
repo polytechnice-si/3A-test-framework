@@ -10,7 +10,7 @@ public class Shop {
     private Map<String, Customer> customers;
     private Bank bank;
 
-    public Shop(Catalogue remote) { this(remote, new Bank());  }
+    public Shop(Catalogue remote) { this(remote, new MyBank());  }
 
     public Shop(Catalogue remote, Bank bank) {
         this.contents = remote;
