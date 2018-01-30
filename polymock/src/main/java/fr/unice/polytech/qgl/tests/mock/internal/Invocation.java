@@ -3,20 +3,20 @@ package fr.unice.polytech.qgl.tests.mock.internal;
 import java.util.Arrays;
 import java.util.Objects;
 
-public class MockedInvocation {
+public class Invocation {
 
     private ConfigurableObject proxy;
     private String method;
     private Object[] args;
 
 
-    public MockedInvocation(ConfigurableObject obj, String method, Object[] args) {
+    public Invocation(ConfigurableObject obj, String method, Object[] args) {
         this.proxy = obj;
         this.method = method;
         this.args = args;
     }
 
-    MockedInvocation(String method, Object[] args) { this(null, method, args); }
+    Invocation(String method, Object[] args) { this(null, method, args); }
 
     public String getMethod() { return method; }
 
@@ -31,14 +31,11 @@ public class MockedInvocation {
     @Override public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        MockedInvocation that = (MockedInvocation) o;
-        return Objects.equals(method, that.method) &&
-                Arrays.equals(args, that.args);
+        Invocation that = (Invocation) o;
+        return Objects.equals(method, that.method) && Arrays.equals(args, that.args);
     }
 
     @Override public int hashCode() {
-        int result = Objects.hash(method);
-        result = 31 * result + Arrays.hashCode(args);
-        return result;
+        return 31 * Objects.hash(method) + Arrays.hashCode(args);
     }
 }
