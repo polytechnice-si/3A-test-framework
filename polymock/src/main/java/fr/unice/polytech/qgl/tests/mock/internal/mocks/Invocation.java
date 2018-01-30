@@ -1,4 +1,4 @@
-package fr.unice.polytech.qgl.tests.mock.internal;
+package fr.unice.polytech.qgl.tests.mock.internal.mocks;
 
 import java.util.Arrays;
 import java.util.Objects;

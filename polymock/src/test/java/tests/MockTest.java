@@ -1,17 +1,14 @@
 package tests;
 
-import fr.unice.polytech.qgl.tests.unit.annotations.*;
-import sun.misc.ProxyGenerator;
 
+import tests.calculator.Adder;
+
+import fr.unice.polytech.qgl.tests.unit.annotations.*;
 import static fr.unice.polytech.qgl.tests.mock.Mock.*;
 import static fr.unice.polytech.qgl.tests.unit.assertions.Assertion.*;
 
 @TestSuite
 public class MockTest {
-
-    interface Adder {
-        int add(int a, int b);
-    }
 
     private Adder anAdder;
     private Adder aMock;
