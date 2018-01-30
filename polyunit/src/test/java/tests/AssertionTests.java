@@ -24,21 +24,21 @@ public class AssertionTests {
     public void failOnPurposeButIgnored() { fail("This one should fail"); }
 
     @Test public void assertTrueWorks() {
-        assertTrue("this one is OK", threshold > 0);
+        assertTrue(threshold > 0);
     }
 
     @Test(expected = AssertionFailedError.class)
     public void assertTrueFailsWhenRelevant() {
-        assertTrue("this one is KO",  threshold <= 0);
+        assertTrue( threshold <= 0);
     }
 
     @Test public void assertFalseWorks() {
-        assertFalse("this one is OK", threshold <= 0);
+        assertFalse(threshold <= 0);
     }
 
     @Test(expected = AssertionFailedError.class)
     public void assertFalseFailsWhenRelevant() {
-        assertFalse("this one is KO", threshold > 0);
+        assertFalse( threshold > 0);
     }
 
     @Test(expected = IllegalArgumentException.class)

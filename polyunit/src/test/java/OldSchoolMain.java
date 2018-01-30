@@ -26,7 +26,7 @@ public class OldSchoolMain {
         System.out.print("Test #2.1: assertTrue: ");
         boolean passed = false;
         try {
-            assertTrue("this one is OK", 1 == 1);
+            assertTrue( 1 == 1);
             passed = true;
         } catch (AssertionFailedError e) {}
         if(passed) { System.out.println("OK"); } else { System.out.println("FAILURE"); }
@@ -34,7 +34,7 @@ public class OldSchoolMain {
         System.out.print("Test #2.2: assertTrue: ");
         passed = false;
         try {
-            assertTrue("this one is KO", 1 == 2);
+            assertTrue( 1 == 2);
             passed = true;
         } catch (AssertionFailedError e) {}
         if(!passed) { System.out.println("OK"); } else { System.out.println("FAILURE"); }
@@ -44,7 +44,7 @@ public class OldSchoolMain {
         System.out.print("Test #3.1: assertFalse: ");
         boolean passed = false;
         try {
-            assertFalse("this one is OK", 1 == 2);
+            assertFalse( 1 == 2);
             passed = true;
         } catch (AssertionFailedError e) {}
         if(passed) { System.out.println("OK"); } else { System.out.println("FAILURE"); }
@@ -52,7 +52,7 @@ public class OldSchoolMain {
         System.out.print("Test #3.2: assertFalse: ");
         passed = false;
         try {
-            assertFalse("this one is KO", 1 == 1);
+            assertFalse( 1 == 1);
             passed = true;
         } catch (AssertionFailedError e) {}
         if(!passed) { System.out.println("OK"); } else { System.out.println("FAILURE"); }
@@ -62,7 +62,7 @@ public class OldSchoolMain {
         System.out.print("Test #4.1: assertEquals: ");
         boolean passed = false;
         try {
-            assertEquals("this one is OK", "pouet", "pouet");
+            assertEquals("pouet", "pouet");
             passed = true;
         } catch (AssertionFailedError e) {}
         if(passed) { System.out.println("OK"); } else { System.out.println("FAILURE"); }
@@ -70,7 +70,7 @@ public class OldSchoolMain {
         System.out.print("Test #4.2: assertEquals: ");
         passed = false;
         try {
-            assertEquals("this one is OK", null, null);
+            assertEquals( null, null);
             passed = true;
         } catch (AssertionFailedError e) {}
         if(passed) { System.out.println("OK"); } else { System.out.println("FAILURE"); }
@@ -78,7 +78,7 @@ public class OldSchoolMain {
         System.out.print("Test #4.3: assertEquals: ");
         passed = false;
         try {
-            assertEquals("this one is KO", null, "pouet");
+            assertEquals( null, "pouet");
             passed = true;
         } catch (AssertionFailedError e) {}
         if(!passed) { System.out.println("OK"); } else { System.out.println("FAILURE"); }
@@ -86,7 +86,7 @@ public class OldSchoolMain {
         System.out.print("Test #4.4: assertEquals: ");
         passed = false;
         try {
-            assertEquals("this one is KO", "pouet", null);
+            assertEquals( "pouet", null);
             passed = true;
         } catch (AssertionFailedError e) {}
         if(!passed) { System.out.println("OK"); } else { System.out.println("FAILURE"); }
@@ -94,7 +94,7 @@ public class OldSchoolMain {
         System.out.print("Test #4.5: assertEquals: ");
         passed = false;
         try {
-            assertEquals("this one is KO", "pouet", "pouetpouet");
+            assertEquals( "pouet", "pouetpouet");
             passed = true;
         } catch (AssertionFailedError e) {}
         if(!passed) { System.out.println("OK"); } else { System.out.println("FAILURE"); }
@@ -104,7 +104,7 @@ public class OldSchoolMain {
         System.out.print("Test #5: failure: ");
         boolean passed = false;
         try {
-            assertEquals("This one fails", 1, 2);
+            assertEquals( 1, 2);
             passed = true;
         } catch (AssertionFailedError e) {}
         if(passed) { System.out.println("OK"); } else { System.out.println("FAILURE"); }

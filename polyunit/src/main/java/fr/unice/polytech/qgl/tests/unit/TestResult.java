@@ -16,8 +16,8 @@ public class TestResult {
 
     TestResult(Method test, boolean success) { this(test, success, "");  }
 
-    @Override
-    public String toString() {
-        return test.getName() + ": " + (success? "OK": "FAILURE") + (message.equals("") ? "" : " ["+message+"]");
+    @Override public String toString() {
+        return "  " + test.getName() + ": " + (success? "OK": "FAILURE")
+                + (message != null && message.equals("") ? "" : " ["+message+"]");
     }
 }

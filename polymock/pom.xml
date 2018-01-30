@@ -16,5 +16,13 @@
 
     <name>QGL :: Tests :: Mocks</name>
 
+    <dependencies>
+        <dependency>
+            <groupId>fr.unice.polytech.qgl.tests</groupId>
+            <artifactId>polyunit</artifactId>
+            <version>1.0-SNAPSHOT</version>
+        </dependency>
+    </dependencies>
+
 
 </project>

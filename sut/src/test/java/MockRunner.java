@@ -1,9 +1,9 @@
 import fr.unice.polytech.qgl.tests.unit.Runner;
 
-public class UnitRunner {
+public class MockRunner {
 
     public static void main(String[] args) {
-        Runner unitRunner = new Runner("demo.unit");
+        Runner unitRunner = new Runner("demo.mock");
         unitRunner.execute();
     }
 

@@ -35,7 +35,7 @@
   <modules> <!-- Containment relationships: this projects contains serveral sub-modules. -->
     <module>sut</module>
     <module>polymock</module>
-    <module>polytest</module>
+    <module>polyunit</module>
     <module>polymber</module>
   </modules>
 

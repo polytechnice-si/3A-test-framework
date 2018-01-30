@@ -19,7 +19,7 @@
     <dependencies>
       <dependency>
         <groupId>fr.unice.polytech.qgl.tests</groupId>
-        <artifactId>polytest</artifactId>
+        <artifactId>polyunit</artifactId>
         <version>1.0-SNAPSHOT</version>
       </dependency>
         <dependency>
